@@ -1,0 +1,19 @@
+$TTL 2d
+
+$ORIGIN lab.russelltest.org.
+
+@       IN     SOA    ns.lab.russelltest.org. daltonwrussell.gmail.com  (
+                                20230930        ; serial
+                                12h             ; refresh
+                                15m             ; retry
+                                3w              ; expire
+                                2h              ; minimum ttl
+                                )
+
+                IN      NS      ns.lab.russelltest.org.
+
+ns              IN      A       192.168.50.200
+
+; -- add dns records below
+
+*.test          IN      A       192.168.20.10
