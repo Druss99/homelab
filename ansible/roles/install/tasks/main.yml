@@ -1,3 +1,27 @@
+- name: create ansible user
+  user:
+    name: ansible
+    groups: root
+
+- name: add ssh key for ansible
+  authorized_key:
+    user: ansible
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6CZVx2Hxl5TK+yYXLlP8DqW ansible"
+
+- name: add sudoers file for ansible
+  copy: 
+    src: ./files/sudoer_ansible
+    dest: /etc/sudoers.d/ansible
+    owner: root
+    group: root
+    mode: 0440
+
+- name: update apt repos
+  become: true
+  apt:
+    update_cache: yes
+  changed_when: false
+
 - name: install base packages
   become: true
   apt:
