@@ -7,6 +7,7 @@
   become: true
   apt:
     name: "{{ additional_packages }}"
+  when: additional_packages is defined
 
 - name: check if system reboot is required
   become: true
