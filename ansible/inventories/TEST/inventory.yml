@@ -1,4 +1,4 @@
-ops_servers:
+test_servers:
   hosts:
     192.168.20.170
   vars:
