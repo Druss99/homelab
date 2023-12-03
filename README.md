@@ -1,1 +1,1 @@
-This will hold all of my homelab config files and various other files needed for my homelab, hopefully this works <3
+This repo contains basic configuration files and playbooks for setting up and maintaining my homelab.
