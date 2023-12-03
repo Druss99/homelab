@@ -1,7 +1,12 @@
-- name: upgrade apt packages
+- name: install base packages
   become: true
   apt:
-    pkg: "{{ 'base_packages', 'additional_packages' }}"
+    name: "{{ base_packages }}"
+
+- name: install host specific packages
+  become: true
+  apt:
+    name: "{{ additional_packages }}"
 
 - name: check if system reboot is required
   become: true
