@@ -1,0 +1,9 @@
+---
+- hosts: "{{ hosts }}"
+  remote_user: drussell
+  tasks:
+    - name: Import install role
+      import_role:
+        name: install
+      tags:
+        - install
