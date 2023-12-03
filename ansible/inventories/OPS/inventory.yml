@@ -1,0 +1,6 @@
+ops_servers:
+  hosts:
+    192.168.50.3
+    192.168.50.200
+  vars:
+    discord_webhook_url: https://discord.com/api/webhooks/1180684565950505061/1f9BJ32pu3W5TVuPpklYCjVxYJ_ToDdrEUU5x-u_RD6E7PpDkzaVXUCpbucwFU9fAoGw

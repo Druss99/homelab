@@ -1,0 +1,8 @@
+---
+- hosts: {{ hosts }}
+  tasks:
+    - name: Import update role
+      import_role:
+        name: update
+      tags:
+        - update
