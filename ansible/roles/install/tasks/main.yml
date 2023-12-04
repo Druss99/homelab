@@ -1,6 +1,4 @@
 - name: set hostname
-  become: true
-  become_user: root
   command: hostname "{{ server_hostname }}"
 
 - name: create ansible user
