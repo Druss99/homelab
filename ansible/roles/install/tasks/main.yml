@@ -1,15 +1,18 @@
 - name: set hostname
   command: hostnamectl set-hostname "{{ server_hostname }}"
+  when: "ansible_hostname != server_hostname"
 
 - name: create ansible user
   user:
     name: ansible
     groups: root
+  when: "not lookup('user', 'ansible') or lookup('user', 'ansible').groups != 'root'"
 
 - name: add ssh key for ansible
   authorized_key:
     user: ansible
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6CZVx2Hxl5TK+yYXLlP8DqW ansible"
+  when: "not lookup('authorized_key', 'ansible', 'file=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6CZVx2Hxl5TK+yYXLlP8DqW ansible')"
 
 - name: add sudoers file for ansible
   copy: 
@@ -18,6 +21,7 @@
     owner: root
     group: root
     mode: 0440
+  when: "not lookup('file', '/etc/sudoers.d/ansible') or lookup('file', '/etc/sudoers.d/ansible') != lookup('file', './files/sudoer_ansible')"
 
 - name: update apt repos
   apt:
