@@ -1,6 +1,9 @@
 test_servers:
   hosts:
-    192.168.20.170
+    192.168.20.170:
+      server_hostname: k3smastertest1
+    192.168.20.171:
+      server_hostname: k3sslavetest1
 
 docker:
   hosts:

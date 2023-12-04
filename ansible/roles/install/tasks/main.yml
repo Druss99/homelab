@@ -1,3 +1,7 @@
+- name: set hostname 
+  hostname:
+    name: "{{ server_hostname }}"
+
 - name: create ansible user
   user:
     name: ansible
