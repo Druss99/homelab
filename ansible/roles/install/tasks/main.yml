@@ -12,9 +12,6 @@
   authorized_key:
     user: ansible
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6CZVx2Hxl5TK+yYXLlP8DqW ansible"
-  when: >
-    not lookup('file', '/home/ansible/.ssh/authorized_keys') or
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6CZVx2Hxl5TK+yYXLlP8DqW ansible" not in lookup('file', '/home/ansible/.ssh/authorized_keys').split('\n')
 
 - name: add sudoers file for ansible
   copy: 
