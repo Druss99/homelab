@@ -2,6 +2,9 @@
 - hosts: "{{ hosts }}"
   remote_user: drussell
   become: true
+  become_user: root
+  become_method: su
+  become_flags: '--login'
   tasks:
     - name: Import install role
       import_role:
