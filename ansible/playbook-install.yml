@@ -1,6 +1,9 @@
 ---
 - hosts: "{{ hosts }}"
   remote_user: drussell
+  become: true
+  become_user: root
+  become_method: sudo
   tasks:
     - name: Import install role
       import_role:

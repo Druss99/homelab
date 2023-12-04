@@ -1,4 +1,6 @@
 ops_servers:
   hosts:
     192.168.50.3:
+      server_hostname: mediaserver
     192.168.50.200:
+      server_hostname: dnsserver
