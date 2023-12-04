@@ -3,8 +3,7 @@
   remote_user: drussell
   become: true
   become_user: root
-  become_method: su
-  become_flags: '--login'
+  become_method: sudo
   tasks:
     - name: Import install role
       import_role:

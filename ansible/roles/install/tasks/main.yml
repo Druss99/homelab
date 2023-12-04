@@ -1,5 +1,5 @@
 - name: set hostname
-  command: hostname "{{ server_hostname }}"
+  command: hostnamectl set-hostname "{{ server_hostname }}"
 
 - name: create ansible user
   user:
