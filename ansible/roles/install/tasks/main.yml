@@ -12,6 +12,7 @@
   authorized_key:
     user: ansible
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6CZVx2Hxl5TK+yYXLlP8DqW ansible"
+    state: present
 
 - name: add sudoers file for ansible
   copy: 
@@ -20,7 +21,6 @@
     owner: root
     group: root
     mode: 0440
-  when: "not lookup('file', '/etc/sudoers.d/ansible') or lookup('file', '/etc/sudoers.d/ansible') != lookup('file', './files/sudoer_ansible')"
 
 - name: update apt repos
   apt:
