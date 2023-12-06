@@ -2,6 +2,15 @@
   command: hostnamectl set-hostname "{{ server_hostname }}"
   when: "ansible_hostname != server_hostname"
 
+- name: Update hosts file
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    search_string: '127.0.1.1'
+    line: 127.0.1.1 "{{ server_hostname }}"
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: create ansible user
   user:
     name: ansible
