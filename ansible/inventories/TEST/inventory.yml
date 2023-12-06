@@ -4,6 +4,10 @@ test_servers:
       server_hostname: k3smastertest1
     192.168.20.171:
       server_hostname: k3sslavetest1
+    192.168.20.172:
+      server_hostname: k3smastertest2
+    192.168.20.173:
+      server_hostname: k3sslavetest2
 
 docker:
   hosts:
