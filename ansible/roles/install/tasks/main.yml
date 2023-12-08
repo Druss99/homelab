@@ -61,6 +61,7 @@
 - name: ensure /share directory exists 
   ansible.builtin.file:
     path: /share
+    state: present
     owner: drussell
     group: share_group
     mode: '0774'
