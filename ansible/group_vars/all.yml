@@ -2,3 +2,4 @@
 base_packages:
   - vim
   - htop
+  - nfs-utils
