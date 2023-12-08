@@ -45,6 +45,38 @@
     name: "{{ additional_packages }}"
   when: additional_packages is defined
 
+- name: create share group
+  ansible.builtin.group:
+    name: share_group
+    state: present
+    gid: 3000
+
+- name: add drussell to share group
+  ansible.builtin.user:
+    name: drussell
+    append: true
+    groups: share_group
+
+- name: ensure /share directory exists 
+  ansible.builtin.file:
+    path: /share
+    owner: drussell
+    group: share_group
+    mode: '0774'
+    
+- name: add nfs to fstab
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    state: present
+    regexp: '^192.168.50.201'
+    line: '192.168.50.201:/mnt/NAS1/networkshare /share nfs rw,noac,nfsvers=4 0 0'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: mount nfs
+  command: mount -a
+
 - name: check if system reboot is required
   stat:
     path: /var/run/reboot-required
