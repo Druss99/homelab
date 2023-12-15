@@ -8,7 +8,9 @@ test_servers:
       server_hostname: k3smastertest2
     192.168.20.173:
       server_hostname: k3sslavetest2
-
+    192.168.20.222:
+      server_hostname: test-docker
 docker:
   hosts:
     192.168.20.170
+    192.168.20.222
