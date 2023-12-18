@@ -8,8 +8,6 @@ version: "3.8"
 # The compose file on main may not be compatible with the latest release.
 #
 
-name: immich
-
 services:
   immich-server:
     container_name: immich_server
@@ -23,11 +21,10 @@ services:
       - "PGID=${PGID:?err}"
     env_file:
       - immich.env
-    ports:
-      - 2283:3001
     depends_on:
       - redis
       - database
+      - typesense
     restart: always
 
   immich-microservices:
@@ -48,6 +45,7 @@ services:
     depends_on:
       - redis
       - database
+      - typesense
     restart: always
 
   immich-machine-learning:
@@ -77,6 +75,38 @@ services:
       - ${FOLDER_IMMICH}/pgdata:/var/lib/postgresql/data
     restart: always
 
-volumes:
-  pgdata:
-  model-cache:
+  immich-web:
+    container_name: immich_web
+    image: ghcr.io/immich-app/immich-web:${IMMICH_VERSION:-release}
+    environment:
+      - "PUID=${PUID:?err}"
+      - "PGID=${PGID:?err}"
+    env_file:
+      - .env
+    restart: always
+
+  typesense:
+    container_name: immich_typesense
+    image: typesense/typesense:0.24.1@sha256:9bcff2b829f12074426ca044b56160ca9d777a0c488303469143dd9f8259d4dd
+    environment:
+      - TYPESENSE_API_KEY=${TYPESENSE_API_KEY}
+      - TYPESENSE_DATA_DIR=/data
+      # remove this to get debug messages
+      - GLOG_minloglevel=1
+    volumes:
+      - ${FOLDER_IMMICH}/tsdata:/data
+    restart: always
+
+  immich-proxy:
+    container_name: immich_proxy
+    image: ghcr.io/immich-app/immich-proxy:${IMMICH_VERSION:-release}
+    environment:
+      # Make sure these values get passed through from the env file
+      - IMMICH_SERVER_URL
+      - IMMICH_WEB_URL
+    ports:
+      - 2283:8080
+    depends_on:
+      - immich-server
+      - immich-web
+    restart: always
