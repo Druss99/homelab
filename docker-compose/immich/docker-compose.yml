@@ -82,7 +82,7 @@ services:
       - "PUID=${PUID:?err}"
       - "PGID=${PGID:?err}"
     env_file:
-      - .env
+      - immich.env
     restart: always
 
   typesense:
