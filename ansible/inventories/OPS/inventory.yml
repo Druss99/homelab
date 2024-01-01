@@ -8,7 +8,7 @@ ops_servers:
       server_hostname: pi-hole-2
     192.168.50.4:
       server_hostname: immich
-    192.168.50.6:
+    192.168.50.7:
       server_hostname: portainer3
 
 docker:
