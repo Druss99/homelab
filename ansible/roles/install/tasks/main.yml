@@ -16,7 +16,8 @@
   user:
     name: ansible
     groups: root
-  when: "'ansible' not in lookup('pipe', 'getent passwd | cut -d: -f1')"
+    state: present
+    uid: 1002
 
 - name: add ssh key for ansible
   authorized_key:

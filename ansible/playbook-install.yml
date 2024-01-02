@@ -10,3 +10,18 @@
         name: install
       tags:
         - install
+
+- name: Create Docker User
+  hosts: docker
+  remote_user: drussell
+  become: true
+  become_user: root
+  become_method: sudo
+
+  tasks:
+    - name: Ensure Docker User Exists
+      user:
+        name: docker
+        groups: docker
+        state: present
+        uid: 1001
