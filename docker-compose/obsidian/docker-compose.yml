@@ -12,7 +12,4 @@ services:
       - ${INI_FILE:?err}:/opt/couchdb/etc/local.ini
     ports:
       - ${COUCHDB_PORT:?err}:5984
-    env_file:
-      - path: ./obsidian.env
-        required: true
     restart: unless-stopped
