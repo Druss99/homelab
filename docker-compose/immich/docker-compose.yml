@@ -12,7 +12,7 @@ services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
-    command: [ "start.sh", "immich" ]
+    command: ["start.sh", "immich"]
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
@@ -35,7 +35,7 @@ services:
     # extends:
     #   file: hwaccel.yml
     #   service: hwaccel
-    command: [ "start.sh", "microservices" ]
+    command: ["start.sh", "microservices"]
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro

@@ -6,11 +6,11 @@
   ansible.builtin.lineinfile:
     path: /etc/hosts
     state: present
-    search_string: '127.0.1.1'
+    search_string: "127.0.1.1"
     line: 127.0.1.1 {{ server_hostname }}
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: create ansible user
   user:
@@ -32,7 +32,7 @@
     state: present
 
 - name: add sudoers file for ansible
-  copy: 
+  copy:
     src: ./files/sudoer_ansible
     dest: /etc/sudoers.d/ansible
     owner: root
@@ -74,23 +74,23 @@
     uid: 1001
   when: "'docker' in group_names"
 
-- name: ensure /share directory exists 
+- name: ensure /share directory exists
   ansible.builtin.file:
     path: /share
     state: directory
     owner: drussell
     group: share_group
-    mode: '0777'
-    
+    mode: "0777"
+
 - name: add nfs to fstab
   ansible.builtin.lineinfile:
     path: /etc/fstab
     state: present
-    regexp: '^192.168.50.201'
-    line: '192.168.50.201:/mnt/NAS1/networkshare /share nfs rw,noac,nfsvers=4 0 0'
+    regexp: "^192.168.50.201"
+    line: "192.168.50.201:/mnt/NAS1/networkshare /share nfs rw,noac,nfsvers=4 0 0"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: mount nfs
   command: mount -a
@@ -98,7 +98,8 @@
 - name: check if system reboot is required
   stat:
     path: /var/run/reboot-required
-  register: reboot_required
+  register:
+    reboot_required
 
     # Send Discord message when reboot is required
 - name: Send Discord message
