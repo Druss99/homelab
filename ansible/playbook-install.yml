@@ -1,12 +1,13 @@
 ---
-- hosts: "{{ hosts }}"
+- name: "Install hosts"
+  hosts: "{{ hosts | default([]) }}"
   remote_user: drussell
   become: true
   become_user: root
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   tasks:
     - name: Import install role
-      import_role:
+      ansible.builtin.import_role:
         name: install
       tags:
         - install
