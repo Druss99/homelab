@@ -69,6 +69,7 @@
   user:
     name: docker
     groups: share_group
+    append: true
     state: present
     uid: 1001
 
