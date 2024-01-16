@@ -25,6 +25,12 @@
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6CZVx2Hxl5TK+yYXLlP8DqW ansible"
     state: present
 
+- name: add ssh key for desktop
+  authorized_key:
+    user: drussell
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELunLk3qc87GLt/P8gYfc9H0EtO9JFY11Xhyj8SUlnP dalton.w.russell@gmail.com"
+    state: present
+
 - name: add sudoers file for ansible
   copy: 
     src: ./files/sudoer_ansible
@@ -59,13 +65,20 @@
     append: true
     groups: share_group
 
+- name: create docker user
+  user:
+    name: docker
+    groups: share_group
+    state: present
+    uid: 1001
+
 - name: ensure /share directory exists 
   ansible.builtin.file:
     path: /share
     state: directory
     owner: drussell
     group: share_group
-    mode: '0774'
+    mode: '0777'
     
 - name: add nfs to fstab
   ansible.builtin.lineinfile:
