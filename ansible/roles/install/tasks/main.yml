@@ -72,7 +72,7 @@
     append: true
     state: present
     uid: 1001
-    when: "'docker' in group_names"
+  when: "'docker' in group_names"
 
 - name: ensure /share directory exists 
   ansible.builtin.file:
