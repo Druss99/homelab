@@ -1,72 +1,76 @@
-- name: set hostname
-  command: hostnamectl set-hostname "{{ server_hostname }}"
+---
+- name: Set hostname
+  ansible.builtin.hostname:
+    name: "{{ server_hostname }}"
   when: "ansible_hostname != server_hostname"
 
 - name: Update hosts file
   ansible.builtin.lineinfile:
     path: /etc/hosts
     state: present
-    search_string: '127.0.1.1'
+    search_string: "127.0.1.1"
     line: 127.0.1.1 {{ server_hostname }}
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
-- name: create ansible user
-  user:
+- name: Create ansible user
+  ansible.builtin.user:
     name: ansible
     groups: root
     state: present
     uid: 1002
 
-- name: add ssh key for ansible
-  authorized_key:
+- name: Add ssh key for ansible
+  ansible.posix.authorized_key:
     user: ansible
-    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6CZVx2Hxl5TK+yYXLlP8DqW ansible"
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6\
+          CZVx2Hxl5TK+yYXLlP8DqW ansible"
     state: present
 
-- name: add ssh key for desktop
-  authorized_key:
+- name: Add ssh key for desktop
+  ansible.posix.authorized_key:
     user: drussell
-    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELunLk3qc87GLt/P8gYfc9H0EtO9JFY11Xhyj8SUlnP dalton.w.russell@gmail.com"
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELunLk3qc87GLt/P\
+          8gYfc9H0EtO9JFY11Xhyj8SUlnP dalton.w.russell@gmail.com"
     state: present
 
-- name: add sudoers file for ansible
-  copy: 
+- name: Add sudoers file for ansible
+  ansible.builtin.copy:
     src: ./files/sudoer_ansible
     dest: /etc/sudoers.d/ansible
     owner: root
     group: root
-    mode: 0440
+    mode: "0440"
 
-- name: update apt repos
-  apt:
-    update_cache: yes
+- name: Update apt repos
+  ansible.builtin.apt:
+    update_cache: true
   changed_when: false
 
-- name: install base packages
-  apt:
+- name: Install base packages
+  ansible.builtin.apt:
     name: "{{ base_packages }}"
 
-- name: install host specific packages
-  apt:
+- name: Install host specific packages
+  ansible.builtin.apt:
     name: "{{ additional_packages }}"
   when: additional_packages is defined
 
-- name: create share group
+- name: Create share group
   ansible.builtin.group:
     name: share_group
     state: present
     gid: 3000
 
-- name: add drussell to share group
+- name: Add drussell to share group
   ansible.builtin.user:
     name: drussell
     append: true
     groups: share_group
 
-- name: create docker user
-  user:
+- name: Create docker user
+  ansible.builtin.user:
     name: docker
     groups: share_group
     append: true
@@ -74,35 +78,31 @@
     uid: 1001
   when: "'docker' in group_names"
 
-- name: ensure /share directory exists 
+- name: Ensure /share directory exists
   ansible.builtin.file:
     path: /share
     state: directory
     owner: drussell
     group: share_group
-    mode: '0777'
-    
-- name: add nfs to fstab
-  ansible.builtin.lineinfile:
-    path: /etc/fstab
-    state: present
-    regexp: '^192.168.50.201'
-    line: '192.168.50.201:/mnt/NAS1/networkshare /share nfs rw,noac,nfsvers=4 0 0'
-    owner: root
-    group: root
-    mode: '0644'
+    mode: "0777"
 
-- name: mount nfs
-  command: mount -a
+- name: Mount nfs
+  ansible.posix.mount:
+    src: "192.168.50.201:/mnt/NAS1/networkshare"
+    path: "/share"
+    fstype: "nfs"
+    opts: "rw,noac,nfsvers=4"
+    state: "mounted"
 
-- name: check if system reboot is required
-  stat:
+- name: Check if system reboot is required
+  ansible.builtin.stat:
     path: /var/run/reboot-required
-  register: reboot_required
+  register:
+    reboot_required
 
     # Send Discord message when reboot is required
-- name: Send Discord message
-  uri:
+- name: Send discord message
+  ansible.builtin.uri:
     url: "{{ discord_webhook_url }}"
     method: POST
     body_format: json

@@ -1,3 +1,4 @@
+---
 test_servers:
   hosts:
     192.168.20.170:
@@ -11,6 +12,5 @@ test_servers:
     192.168.20.222:
       server_hostname: test-docker
 docker:
-  hosts:
-    192.168.20.170
+  hosts: 192.168.20.170
     192.168.20.222
