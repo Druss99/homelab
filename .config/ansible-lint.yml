@@ -2,3 +2,4 @@
 # .ansible-lint
 mock_modules:
   - ansible.posix.authorized_key
+  - ansible.posix.mount
