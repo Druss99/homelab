@@ -1,3 +1,4 @@
+---
 - name: Set hostname
   ansible.builtin.hostname:
     name: "{{ server_hostname }}"
@@ -23,13 +24,15 @@
 - name: Add ssh key for ansible
   ansible.posix.authorized_key:
     user: ansible
-    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6CZVx2Hxl5TK+yYXLlP8DqW ansible"
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINSi+y9JJj14bgwxhiRmO6\
+          CZVx2Hxl5TK+yYXLlP8DqW ansible"
     state: present
 
 - name: Add ssh key for desktop
   ansible.posix.authorized_key:
     user: drussell
-    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELunLk3qc87GLt/P8gYfc9H0EtO9JFY11Xhyj8SUlnP dalton.w.russell@gmail.com"
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELunLk3qc87GLt/P\
+          8gYfc9H0EtO9JFY11Xhyj8SUlnP dalton.w.russell@gmail.com"
     state: present
 
 - name: Add sudoers file for ansible
