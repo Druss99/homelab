@@ -1,9 +1,10 @@
 ---
-- hosts: "{{ hosts }}"
+- name: "Update hosts"
+  hosts: "{{ hosts | default([]) }}"
   remote_user: ansible
   tasks:
     - name: Import update role
-      import_role:
+      ansible.builtin.import_role:
         name: update
       tags:
         - update
