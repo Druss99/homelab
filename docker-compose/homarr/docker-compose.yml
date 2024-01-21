@@ -1,0 +1,17 @@
+---
+version: "3"
+services:
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    restart: unless-stopped
+    environment:
+      - "PUID=${PUID:?err}"
+      - "PGID=${PGID:?err}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+      - ${FOLDER_HOMARR_CONFIG:?err}:/app/data/configs
+      - ${FOLDER_HOMARR_ICONS:?err}:/app/public/icons
+      - ${FOLDER_HOMARR_DATA:?err}:/data
+    ports:
+      - "${HOMARR_PORT:?err}:7575"
